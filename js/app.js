@@ -34,8 +34,8 @@ class Enemy extends Sprite {
 	super(x,y,'images/enemy-bug.png');
     }
     update(dt) {
-	if (this.x > 505){this.x = -101}
-	else{this.x += 101*dt}
+	this.x += 101*dt;
+	if (this.x > 505){this.x -= 606}
     }
 }
 class Player extends Sprite {

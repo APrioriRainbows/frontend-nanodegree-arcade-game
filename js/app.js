@@ -1,26 +1,41 @@
-// Enemies our player must avoid
-var Enemy = function() {
+class Sprite {
+    constructor(x,y,sprite){
+	this.x = x;
+	this.y = y;
+	this.sprite = sprite;
+	this.w = 101;
+	this.h = 83;
+    }
+    // You should multiply any movement by the dt parameter
+    // which will ensure the game runs at the same speed for
+    // all computers.
+    // Update the enemy's position, required method for game
+    // Parameter: dt, a time delta between ticks
+    update(dt){
+    }
+    // Draw the enemy on the screen, required method for game
+    render(){
+	//ctx.fillStyle = "black";
+	//ctx.fillRect(this.x,this.y,this.w,this.h)
+	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
+}
+
+class Enemy extends Sprite {
+    constructor(x,y){
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
-};
-
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-};
-
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
+	super(x,y,'images/enemy-bug.png');
+    }
+}
+class Player extends Sprite {
+    constructor(x,y){
+	super(x,y,'images/char-cat-girl.png');
+    }
+}
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
@@ -29,7 +44,12 @@ Enemy.prototype.render = function() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-
+var allEnemies = [
+    new Enemy(1,50),
+    new Enemy(1,130),
+    new Enemy(1,225),
+]
+var player = new Player(200,400);
 
 
 // This listens for key presses and sends the keys to your

@@ -3,8 +3,6 @@ class Sprite {
 	this.x = x;
 	this.y = y;
 	this.sprite = sprite;
-	this.w = 101;
-	this.h = 83;
     }
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
@@ -12,6 +10,12 @@ class Sprite {
     // Update the enemy's position, required method for game
     // Parameter: dt, a time delta between ticks
     update(dt){
+    }
+    handleInput(){
+	if(event.keyCode === 38){this.y -= 80;console.log(this.y)}
+	else if(event.keyCode === 40){this.y += 80;console.log(this.y)}
+	if(this.y > 377){this.y = 377;console.log(this.y)};
+	if(this.y < 0){this.y = 57;alert('game over')};
     }
     // Draw the enemy on the screen, required method for game
     render(){
@@ -49,7 +53,7 @@ var allEnemies = [
     new Enemy(1,130),
     new Enemy(1,225),
 ]
-var player = new Player(200,400);
+var player = new Player(202,377);
 
 
 // This listens for key presses and sends the keys to your

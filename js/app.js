@@ -3,6 +3,8 @@ class Sprite {
 	this.x = x;
 	this.y = y;
 	this.sprite = sprite;
+	this.tileVertical = 101;
+	this.tileHorizontal = 83;
     }
     // Update the enemy's position, required method for game
     // Parameter: dt, a time delta between ticks
@@ -11,44 +13,48 @@ class Sprite {
     update(dt){
     }
 
-    handleInput(){
-	if(event.keyCode === 38){this.y -= 80;console.log(this.y)}
-	else if(event.keyCode === 40){this.y += 80;console.log(this.y)}
-	else if(event.keyCode === 37){this.x -= 101;console.log(this.x)}
-	else if(event.keyCode === 39){this.x += 101;console.log(this.x)}
-	if(this.y > 377){this.y = 377;console.log(this.y)};
-	if(this.y < 57){this.y = 57;alert('game over')};
-	if(this.x > 404){this.x = 404;console.log(this.x)};
-	if(this.x < 0){this.x = 0;console.log(this.x)};
-    }
     // Draw the enemy on the screen, required method for game
     render(){
-	//ctx.fillStyle = "black";
-	//ctx.fillRect(this.x,this.y,this.w,this.h)
+//	ctx.fillStyle = "black";
+//	ctx.fillRect(this.x,this.y,this.w,this.h)
 	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 }
 
 class Enemy extends Sprite {
-    constructor(x,y){
+    constructor(x,y,speed){
 	super(x,y,'images/enemy-bug.png');
+	this.speed = speed;
     }
     update(dt) {
-	this.x += 101*dt;
-	if (this.x > 505){this.x -= 606}
+	this.x += this.speed*dt;
+	if (this.x > 505){this.x -= 505}
     }
 }
 class Player extends Sprite {
     constructor(x,y){
 	super(x,y,'images/char-cat-girl.png');
     }
+    handleInput(){
+	if(event.keyCode === 38){this.y -= this.tileVertical-20;console.log(this.y)}
+	else if(event.keyCode === 40){this.y += this.tileVertical-20;console.log(this.y)}
+	else if(event.keyCode === 37){this.x -= this.tileHorizontal+20;console.log(this.x)}
+	else if(event.keyCode === 39){this.x += this.tileHorizontal+20;console.log(this.x)}
+	if(this.y > this.tileVertical*4){this.y = 377;console.log(this.y)};
+	if(this.y < this.tileVertical/2){
+	    this.y = this.tileVertical/2;alert('game over')//TODO: replace with game over func
+	};
+	if(this.x > 404){this.x = 404;console.log(this.x)};
+	if(this.x < 0){this.x = 0;console.log(this.x)};
+    }
+    
 }
 
 var allEnemies = [
-    new Enemy(101,217),
-    new Enemy(0,137),
-    new Enemy(202,57),
-    new Enemy(404,57)
+    new Enemy(101,217,101),
+    new Enemy(0,137,202),
+    new Enemy(202,57,303),
+    new Enemy(404,57,303)
 ]
 const player = new Player(202,377);
 

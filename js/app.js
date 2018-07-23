@@ -28,7 +28,7 @@ class Enemy extends Sprite {
     }
     update(dt) {
 	this.x += this.speed*dt;
-	if (this.x > 505){this.x -= (this.x%505 + 505)}
+	if (this.x > 505){this.x = (this.x%505 - this.tileHorizontal)}
     }
 }
 class Player extends Sprite {
@@ -41,9 +41,7 @@ class Player extends Sprite {
 	else if(input=='left'){this.x -= this.tileHorizontal+20;console.log(this.x)}
 	else if(input=='right'){this.x += this.tileHorizontal+20;console.log(this.x)}
 	if(this.y > this.tileVertical*4){this.y = 377;console.log(this.y)};
-	if(this.y < 53){
-	    this.y = 377;alert('game over')//TODO: replace with game over func
-	};
+	if(this.y < 53){gameOver('Hooray! You win!',resetPlayer)};
 	if(this.x > 404){this.x = 404;console.log(this.x)};
 	if(this.x < 0){this.x = 0;console.log(this.x)};
     }
@@ -52,9 +50,8 @@ class Player extends Sprite {
 	for(let enemy of allEnemies){
 	    if ((this.y === enemy.y) &&
 		(enemy.x + enemy.tileHorizontal >= this.x) && (enemy.x - this.tileHorizontal <= this.x))
-	    {[player.x,player.y]=[202,377]};
+	    {gameOver('Game over--you died!',resetPlayer)};
 	
-//	    if (enemy.x >300){console.log(enemy.x,this.x)};
 	}
     }
     
@@ -68,7 +65,13 @@ var allEnemies = [
 ]
 const player = new Player(202,377);
 
-
+function resetPlayer(){
+    [player.x,player.y]=[202,377];
+}
+function gameOver(message,callback){
+    alert(message);
+    callback();
+}
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {

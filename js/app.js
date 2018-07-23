@@ -28,33 +28,43 @@ class Enemy extends Sprite {
     }
     update(dt) {
 	this.x += this.speed*dt;
-	if (this.x > 505){this.x -= 505}
+	if (this.x > 505){this.x -= (this.x%505 + 505)}
     }
 }
 class Player extends Sprite {
     constructor(x,y){
 	super(x,y,'images/char-cat-girl.png');
     }
-    handleInput(){
-	if(event.keyCode === 38){this.y -= this.tileVertical-20;console.log(this.y)}
-	else if(event.keyCode === 40){this.y += this.tileVertical-20;console.log(this.y)}
-	else if(event.keyCode === 37){this.x -= this.tileHorizontal+20;console.log(this.x)}
-	else if(event.keyCode === 39){this.x += this.tileHorizontal+20;console.log(this.x)}
+    handleInput(input){
+	if(input=='up'){this.y -= this.tileVertical-20;console.log(this.y)}
+	else if(input=='down'){this.y += this.tileVertical-20;console.log(this.y)}
+	else if(input=='left'){this.x -= this.tileHorizontal+20;console.log(this.x)}
+	else if(input=='right'){this.x += this.tileHorizontal+20;console.log(this.x)}
 	if(this.y > this.tileVertical*4){this.y = 377;console.log(this.y)};
-	if(this.y < this.tileVertical/2){
-	    this.y = this.tileVertical/2;alert('game over')//TODO: replace with game over func
+	if(this.y < 53){
+	    this.y = 377;alert('game over')//TODO: replace with game over func
 	};
 	if(this.x > 404){this.x = 404;console.log(this.x)};
 	if(this.x < 0){this.x = 0;console.log(this.x)};
     }
+    update(){
+	//check collisions
+	for(let enemy of allEnemies){
+	    if ((this.y === enemy.y) &&
+		(enemy.x + enemy.tileHorizontal >= this.x) && (enemy.x - this.tileHorizontal <= this.x))
+	    {[player.x,player.y]=[202,377]};
+	
+//	    if (enemy.x >300){console.log(enemy.x,this.x)};
+	}
+    }
     
 }
 
+
 var allEnemies = [
-    new Enemy(101,217,101),
-    new Enemy(0,137,202),
-    new Enemy(202,57,303),
-    new Enemy(404,57,303)
+    new Enemy(-101,215,101),
+    new Enemy(-101,134,202),
+    new Enemy(-101,53,303),
 ]
 const player = new Player(202,377);
 
